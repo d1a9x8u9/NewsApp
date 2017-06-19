@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         progress = (ProgressBar) findViewById(R.id.progressBar);
         search = (EditText) findViewById(R.id.searchQuery);
         textView = (TextView) findViewById(R.id.news_data);
-
         mDataTextView = (TextView) findViewById(R.id.news_data);
+
         new FetchNewsTask().execute(defaultsource);
     }
 
@@ -47,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (itemNumber == R.id.search) {
             String s = search.getText().toString();
-            FetchNewsTask task = new FetchNewsTask();
-            task.execute(s);
+            new FetchNewsTask().execute(s);
             mDataTextView.setText("");
             mDataTextView = (TextView) findViewById(R.id.news_data);
         }
@@ -56,7 +56,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public class FetchNewsTask extends AsyncTask<String, Void, String> {
+    private class FetchNewsTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress.setVisibility(View.VISIBLE);
+        }
+
         @Override
         protected String doInBackground(String... strings) {
             if(strings.length == 0) {
@@ -69,21 +76,19 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TAG", "URL : " + newsUrl);
 
             try {
-                String newsData = NetworkUtils.getResponseFromHttpUrl(newsUrl);
-                // TODO Use NewsJsonUtils to parse 'newsData'
-                // TODO return the String[] from the above sentence
-                return newsData;
-            } catch (Exception e){
+                return NetworkUtils.getResponseFromHttpUrl(newsUrl);
+            }catch (Exception e){
                 e.printStackTrace();
             }
 
             return "Not a valid source.";
+
         }
 
         @Override
         protected void onPostExecute(String newsData) {
+            progress.setVisibility(View.GONE);
             if(newsData!=null){
-               // for(String newsArticle:newsData){
                     mDataTextView.append(newsData + "\n\n\n");
                 }
             }
