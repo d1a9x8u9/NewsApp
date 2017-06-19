@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         search = (EditText) findViewById(R.id.searchQuery);
         textView = (TextView) findViewById(R.id.news_data);
         mDataTextView = (TextView) findViewById(R.id.news_data);
-
-        new FetchNewsTask().execute(defaultsource);
     }
 
     @Override
@@ -48,9 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (itemNumber == R.id.search) {
             String s = search.getText().toString();
-            new FetchNewsTask().execute(s);
+            if(s.isEmpty()) {
+                new FetchNewsTask().execute(defaultsource);
+            }
+            else {
+                new FetchNewsTask().execute(s);
+            }
             mDataTextView.setText("");
-            mDataTextView = (TextView) findViewById(R.id.news_data);
         }
 
         return true;
