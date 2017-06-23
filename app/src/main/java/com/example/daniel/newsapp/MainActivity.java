@@ -1,8 +1,13 @@
 package com.example.daniel.newsapp;
 
+import android.content.Intent;
+import android.net.Network;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,16 +17,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.daniel.newsapp.utilites.NetworkUtils;
+import com.example.daniel.newsapp.utilites.Repository;
+
+import org.json.JSONException;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mDataTextView;
     private ProgressBar progress;
     private EditText search;
-    private TextView textView;
-    private String defaultsource = "the-next-web";
+    private RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         progress = (ProgressBar) findViewById(R.id.progressBar);
         search = (EditText) findViewById(R.id.searchQuery);
-        textView = (TextView) findViewById(R.id.news_data);
-        mDataTextView = (TextView) findViewById(R.id.news_data);
+        rv = (RecyclerView) findViewById(R.id.recyclerView);
+
+        rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -45,20 +53,13 @@ public class MainActivity extends AppCompatActivity {
         int itemNumber = item.getItemId();
 
         if (itemNumber == R.id.search) {
-            String s = search.getText().toString();
-            if(s.isEmpty()) {
-                new FetchNewsTask().execute(defaultsource);
-            }
-            else {
-                new FetchNewsTask().execute(s);
-            }
-            mDataTextView.setText("");
+                FetchNewsTask task = new FetchNewsTask();
+                task.execute();
         }
-
         return true;
     }
 
-    private class FetchNewsTask extends AsyncTask<String, Void, String> {
+    private class FetchNewsTask extends AsyncTask<URL, Void, ArrayList<Repository>> {
 
         @Override
         protected void onPreExecute() {
@@ -67,33 +68,45 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            if(strings.length == 0) {
-                return null;
-            }
+        protected ArrayList<Repository> doInBackground(URL... strings) {
 
-            String newssource = strings[0];
-            URL newsUrl = NetworkUtils.buildUrl(newssource);
+            ArrayList<Repository> result = null;
 
-            Log.d("TAG", "URL : " + newsUrl);
+            URL url = NetworkUtils.buildUrl();
+            Log.d("MainActivity_url", "url: " + url.toString());
 
             try {
-                return NetworkUtils.getResponseFromHttpUrl(newsUrl);
-            }catch (Exception e){
+                String json =  NetworkUtils.getResponseFromHttpUrl(url);
+                result = NetworkUtils.parseJSON(json);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e){
                 e.printStackTrace();
             }
 
-            return "Not a valid source.";
+            return result;
 
         }
 
         @Override
-        protected void onPostExecute(String newsData) {
+        protected void onPostExecute(final ArrayList<Repository> newsData) {
+            super.onPostExecute(newsData);
             progress.setVisibility(View.GONE);
             if(newsData!=null){
-                    mDataTextView.append(newsData + "\n\n\n");
+                    NewsAdapter adapter = new NewsAdapter(newsData, new NewsAdapter.ItemClickListener() {
+                        @Override
+                        public void onItemClick(int clickedItemIndex) {
+                            String url = newsData.get(clickedItemIndex).getUrl();
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(browserIntent);
+                            Log.d("MainActivity", String.format("Url %s",url));
+                        }
+                    });
+                    rv.setAdapter(adapter);
                 }
             }
-        }
+
+
+    }
 
 }
