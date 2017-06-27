@@ -26,9 +26,9 @@ public final class NetworkUtils {
     public static final String NEWS_BASE_URL = STATIC_NEWS_URL;
 
     // Insert your key into 'apiKey'
-    public static final String apikey = "";
+    public static final String apikey = "6e6d27fa70c44a0da70427d2682402d6";
     public static final String sort = "latest";
-    public static final String defaultsource = "the-next-web";
+    public static final String defaultsource = "buzzfeed";
 
     public static String PARAM_API_KEY = "apiKey";
     public static String PARAM_SORT =  "sortBy";

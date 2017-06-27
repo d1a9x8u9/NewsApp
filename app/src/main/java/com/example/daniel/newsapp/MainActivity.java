@@ -1,7 +1,6 @@
 package com.example.daniel.newsapp;
 
 import android.content.Intent;
-import android.net.Network;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.daniel.newsapp.utilites.NetworkUtils;
 import com.example.daniel.newsapp.utilites.Repository;
@@ -36,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         progress = (ProgressBar) findViewById(R.id.progressBar);
-        search = (EditText) findViewById(R.id.searchQuery);
         rv = (RecyclerView) findViewById(R.id.recyclerView);
-
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
