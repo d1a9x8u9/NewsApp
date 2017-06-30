@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rv;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-        progress = (ProgressBar) findViewById(R.id.progressBar);
-        rv = (RecyclerView) findViewById(R.id.recyclerView);
-        rv.setLayoutManager(new LinearLayoutManager(this));
+            progress = (ProgressBar) findViewById(R.id.progressBar);
+            rv = (RecyclerView) findViewById(R.id.recyclerView);
+            rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
