@@ -72,8 +72,8 @@ public final class NetworkUtils {
     }
 
 
-    public static ArrayList<Repository> parseJSON(String json) throws JSONException {
-        ArrayList<Repository> result = new ArrayList<>();
+    public static ArrayList<NewsItem> parseJSON(String json) throws JSONException {
+        ArrayList<NewsItem> result = new ArrayList<>();
         JSONObject main = new JSONObject(json);
         JSONArray articles = main.getJSONArray("articles");
 
@@ -85,8 +85,8 @@ public final class NetworkUtils {
             String url_string = article.getString("url");
             String urlToImage = article.getString("urlToImage");
             String publishedAt = article.getString("publishedAt");
-            Repository repo = new Repository(author, title, description, url_string, urlToImage, publishedAt);
-            result.add(repo);
+            NewsItem newsArticle = new NewsItem(author, title, description, url_string, urlToImage, publishedAt);
+            result.add(newsArticle);
 
             Log.d(TAG, "Added articles to Repo array");
 

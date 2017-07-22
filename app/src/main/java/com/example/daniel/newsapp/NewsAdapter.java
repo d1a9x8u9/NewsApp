@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.daniel.newsapp.utilites.Repository;
+import com.example.daniel.newsapp.utilites.NewsItem;
 
 import java.util.ArrayList;
 
@@ -17,11 +17,11 @@ import java.util.ArrayList;
 
     public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ItemHolder>{
 
-        private ArrayList<Repository> data;
+        private ArrayList<NewsItem> data;
         ItemClickListener listener;
 
 
-        public NewsAdapter(ArrayList<Repository> data, ItemClickListener listener){
+        public NewsAdapter(ArrayList<NewsItem> data, ItemClickListener listener){
             this.data = data;
             this.listener = listener;
         }
@@ -59,17 +59,17 @@ import java.util.ArrayList;
 
             ItemHolder(View view){
                 super(view);
-                title = (TextView)view.findViewById(R.id.title);
-                description = (TextView)view.findViewById(R.id.description);
-                publishedAt = (TextView) view.findViewById(R.id.publishedat);
+                title = view.findViewById(R.id.title);
+                description = view.findViewById(R.id.description);
+                publishedAt = view.findViewById(R.id.publishedat);
                 view.setOnClickListener(this);
             }
 
             public void bind(int pos){
-                Repository repo = data.get(pos);
-                title.setText(repo.getTitle());
-                description.setText(repo.getDescription());
-                publishedAt.setText(repo.getPublishedAt());
+                NewsItem newsTextView = data.get(pos);
+                title.setText(newsTextView.getTitle());
+                description.setText(newsTextView.getDescription());
+                publishedAt.setText(newsTextView.getPublishedAt());
             }
 
             @Override
@@ -78,7 +78,4 @@ import java.util.ArrayList;
                 listener.onItemClick(pos);
             }
         }
-
-
-
     }

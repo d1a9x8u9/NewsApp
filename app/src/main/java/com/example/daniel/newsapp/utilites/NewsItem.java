@@ -4,7 +4,7 @@ package com.example.daniel.newsapp.utilites;
  * Created by Daniel on 6/21/2017.
  */
 
-public class Repository {
+public class NewsItem {
 
     private String author;
     private String title;
@@ -13,7 +13,7 @@ public class Repository {
     private String urlToImage;
     private String publishedAt;
 
-    public Repository(String author, String title, String description, String url, String urlToImage, String publishedAt){
+    public NewsItem(String author, String title, String description, String url, String urlToImage, String publishedAt){
         this.author = author;
         this.title = title;
         this.description = description;

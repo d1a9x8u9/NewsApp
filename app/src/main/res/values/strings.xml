@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">News App</string>
-    <string name="search_string">Search</string>
+    <string name="app_name">News App Hw04</string>
+    <string name="search_string">REFRESH</string>
     <string name="hint">Search</string>
 </resources>
