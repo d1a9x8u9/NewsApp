@@ -2,6 +2,7 @@ package com.example.daniel.newsapp;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;
@@ -19,6 +20,8 @@ import com.firebase.jobdispatcher.Trigger;
 public class ScheduleUtilities {
 
     // NewsJob item tag name
+    private static final int SCHEDULE_INTERVAL_MINUTES = 1;
+    private static final int SYNC_FLEXTIME_SECONDS = 30;
     private static final String NEWS_JOB_TAG = "news_job_tag";
 
     private static boolean sInitialized;
@@ -27,6 +30,7 @@ public class ScheduleUtilities {
         // Check if schedule has been set already, if not create job and set sInitalized to true;
         if(sInitialized) return;
 
+        Log.d("scheduleutilities","Creating new job");
         // Driver for job, Firebase to store driver
         Driver driver = new GooglePlayDriver(context);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);

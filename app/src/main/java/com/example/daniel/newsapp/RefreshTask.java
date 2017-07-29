@@ -22,13 +22,13 @@ class RefreshTask {
     // When called, current db is cleared. Api is called to fetch new articles and then bulk inserted into our db. close db at the end of the method.
     public static void refreshArticles(Context context) {
         ArrayList<NewsItem> result;
-        URL url = NetworkUtils.buildUrl();
+            URL url = NetworkUtils.buildUrl();
 
-        SQLiteDatabase db = new DBHelper(context).getWritableDatabase();
+            SQLiteDatabase db = new DBHelper(context).getWritableDatabase();
 
-        try {
-            DatabaseUtils.deleteAll(db);
-            String json = NetworkUtils.getResponseFromHttpUrl(url);
+            try {
+                DatabaseUtils.deleteAll(db);
+                String json = NetworkUtils.getResponseFromHttpUrl(url);
             result = NetworkUtils.parseJSON(json);
             DatabaseUtils.bulkInsert(db, result);
 

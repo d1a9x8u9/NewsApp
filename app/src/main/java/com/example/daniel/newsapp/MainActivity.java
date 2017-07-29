@@ -25,8 +25,7 @@ import com.example.daniel.newsapp.utilites.DatabaseUtils;
 
 
 
-public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<Void>, MyAdapter.ItemClickListener{
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Void>, MyAdapter.ItemClickListener{
 
     private ProgressBar progress;
     private RecyclerView rv;
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         adapter = new MyAdapter(cursor, this);
         rv.setAdapter(adapter);
     }
+
     // When app stops, close our db and cursor
     @Override
     protected void onStop() {
